@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profissionais</title>
+</head>
+<body>
+    <form id="form">
+        <input type="text" name="nome" id="nome">
+        <input type="text" name="github" id="github">
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        let form = document.getElementById('form');
+        
+        form.onsubmit = (event)=>{
+            //nâo deixa o formulário ir pra outra página. Não deixa atualizar, pra não perder os dados.
+            //estamos cancelando o envio dos dados.
+            event.preventDefault();
+
+            //está salvando o valor digitado dos inputs nome e github.
+            let nomeProfissional = document.getElementById('nome').value;
+            let githubProfissional = document.getElementById('github').value;
+            
+            //criando um objeto
+            let config = {
+                method:"POST",
+                body:JSON.stringify({nome:nomeProfissional, github:githubProfissional})
+            }
+            //vai solicitar à URL com o método e o que vai enviar através da variável config
+            fetch('http://localhost:8000/api/profissionais', config)
+            .then(function(resposta){
+                return resposta.json();
+            }).then(function(json){
+                console.log(json);
+            });
+        }
+        //os dois pontos : funcionam da mesma maneira que a -> , como a seta -> do PHP.
+    </script>
+</body>
+</html>
