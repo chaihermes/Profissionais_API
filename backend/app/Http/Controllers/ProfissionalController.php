@@ -12,7 +12,7 @@ class ProfissionalController extends Controller
         //$listaProfissionais = Profissional::all();
         
         //está buscando o id 16 
-        $listaProfissionais = Profissional::find(16);
+        $listaProfissionais = Profissional::find(20);
 
         //o response recebe todas as informações e retorna um json com a lista de profissionais.
         //esse return cria uma API.
@@ -37,8 +37,6 @@ class ProfissionalController extends Controller
             //tratativas de erro de uma API. Se a tecnologia não existir:
             return response()->json(["error"=>"O id da tecnologia não existe."]);
         }
-
-
 
         //no return exibe todas as informações do usuário que foram cadastradas.
         return response()->json($newProfissional);
