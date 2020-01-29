@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Profissionais</title>
 </head>
 <body>
-    <form id="form">
-        <input type="text" name="nome" id="nome">
-        <input type="text" name="github" id="github">
-        <button type="submit">Enviar</button>
+    <form id="form" class="col-12">
+        <p>Nome</p> <input type="text" name="nome" id="nome">
+        <p>GitHub</p> <input type="text" name="github" id="github">
+        <p>Tecnologia</p> <input type="text" name="tecnologia" id="tecnologia">
+        <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 
     <script>
@@ -18,25 +20,37 @@
         
         form.onsubmit = (event)=>{
             //nâo deixa o formulário ir pra outra página. Não deixa atualizar, pra não perder os dados.
-            //estamos cancelando o envio dos dados.
+            //estamos cancelando o envio dos dados. Cancela o comportamento padrãod o formulário.
             event.preventDefault();
-
+            exibirLoading(true);
             //está salvando o valor digitado dos inputs nome e github.
             let nomeProfissional = document.getElementById('nome').value;
             let githubProfissional = document.getElementById('github').value;
             
-            //criando um objeto
+            //criando um objeto de configuração
             let config = {
-                method:"POST",
-                body:JSON.stringify({nome:nomeProfissional, github:githubProfissional})
+                headers:{   //que tipo de conteúdo vai enviar pro servidor
+                    "Content-Type":"application/json"
+                }, 
+                method:"POST",  //o método de envio
+                body:JSON.stringify({nome:nomeProfissional, github:githubProfissional}) //o conteúdo
+                //aqui é como os names do input.
+                //precisa converter pra JSON.
             }
             //vai solicitar à URL com o método e o que vai enviar através da variável config
             fetch('http://localhost:8000/api/profissionais', config)
             .then(function(resposta){
                 return resposta.json();
+                //primeiro pega a resposta completa, com todas as informações, e extrai o JSON.
+                //Aqui vem todas as informações, então extraimos o que precisamos usar, o JSON.
             }).then(function(json){
-                console.log(json);
-            });
+                console.log(json);  //manejamento de informações.
+            }).catch(function(error){
+                console.log(error);
+                //o catch retorna o erro, caso tenha erro. Será impresso no console o erro.
+            }).finally(()=>{
+                exibiLoading(false);
+            });       //Exemplo: quando tem um evento de loading(carregando) e precisa ser finalizado, excluido.
         }
         //os dois pontos : funcionam da mesma maneira que a -> , como a seta -> do PHP.
     </script>
