@@ -9,14 +9,14 @@ use App\Tecnologia;
 class ProfissionalController extends Controller
 {
     public function listarProfissionais(Request $request){
-        //$listaProfissionais = Profissional::all();
+        $listaProfissionais = Profissional::all();
         
         //está buscando o id 16 
-        $listaProfissionais = Profissional::find(20);
+        //$listaProfissionais = Profissional::find(16);
 
         //o response recebe todas as informações e retorna um json com a lista de profissionais.
         //esse return cria uma API.
-        return response()->json($listaProfissionais->tecnologias);
+        return response()->json($listaProfissionais);
     }
 
     public function criarProfisional(Request $request){
